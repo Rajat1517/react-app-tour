@@ -38,3 +38,75 @@
     background-color: #f1f5f9;
     cursor: not-allowed;
 }
+
+
+
+.wrongOrderContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(192, 192, 192);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.wrongOrder{
+    min-width: fit-content;
+    min-height: fit-content;
+    /* padding: 4rem; */
+    border-radius: 1rem;
+    background-color: white;
+}
+
+
+.wrongOrderButtonContainer{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    /* gap: 4rem; */
+}
+
+
+.wrongOrderButton{
+    background-color: #cad5e2;
+    /* padding: 2rem; */
+}
+
+
+
+
+
+@keyframes popup {
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.overlay{
+    animation: blurIn 0.2s ease-in 1;
+}
+
+
+@keyframes blurIn{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+
+
+.popups{
+    animation: popup 0.5s ease-in 1;
+}

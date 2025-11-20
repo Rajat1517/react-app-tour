@@ -1,9 +1,27 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Step, ReactType } from "./global.types.ts"
 import { useTourNavigate } from "./hooks/useTourNavigate.js";
-import { styles } from "./global.styles.module.css"
+import styles from "./global.styles.module.css";
 
-export type TourContextType = {
+const safeRead = (key: string) => {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        return null;
+    }
+}
+
+const safeWrite = (key: string, value: unknown) => {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+        return  null;
+    }
+}
+
+type TourContextType = {
     step: number;
     steps: Step[];
     setStep?: React.Dispatch<React.SetStateAction<number>>;
@@ -12,8 +30,7 @@ export type TourContextType = {
     setDoneTour?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
-export type TourPopupProps = {
+ type TourPopupProps = {
     passedStep: number;
     children: React.ReactNode;
     left?: number;
@@ -23,18 +40,18 @@ export type TourPopupProps = {
     backHandler?: () => void;
 }
 
-export type TourProps = {
+ type TourProps = {
     steps: Step[];
     children: React.ReactNode;
     id: string;
 }
 
-export interface TourButtonInterface {
+ interface TourButtonInterface {
     onClick: (() => void) | undefined;
     children: React.ReactNode;
 }
 
-export type HighlighterProps = {
+ type HighlighterProps = {
     children: React.ReactNode;
     passedStep: number;
 }
@@ -51,15 +68,15 @@ export default function Tour({ steps, children, id }: TourProps) {
     const [doneTour, setDoneTour] = useState(false);
 
     useEffect(() => {
-        const val = JSON.parse(localStorage.getItem(`tour-${id}`) ?? "")
+        const val = safeRead(`tour-${id}`);
         if (val) {
             setDoneTour(val.doneTour);
-            setStep(val.step);
+            setStep(val.step ?? 0);
         }
-        else localStorage.setItem(`tour-${id}`, JSON.stringify({
+        else safeWrite(`tour-${id}`, {
             doneTour: false,
             step: 0,
-        }));
+        });
     }, [id])
 
     return (
@@ -82,7 +99,7 @@ export function TourPopup({ passedStep, children, left = 0, top = 0, nextHandler
 
     if (!children)
         return (
-            <article className={`${styles.tourPopup} ${styles.tourPopupDefault}`} style={{ top, left }}>
+            <article className={`${styles.tourPopup} ${styles.tourPopupDefault} ${styles.popups}`} style={{ top, left }}>
                 <h3>{steps[step]?.title ?? "Title"}</h3>
                 <p>{steps[step]?.content ?? "Content"}</p>
                 <div className={styles.popupButtonContainer}>
@@ -98,18 +115,21 @@ export function TourPopup({ passedStep, children, left = 0, top = 0, nextHandler
 
 export function TourButtonNext({ onClick: handler, children }: TourButtonInterface) {
 
-    const { steps, setStep, step, id } = useContext(TourContext);
+    const { steps, setStep, step, id, setDoneTour } = useContext(TourContext);
 
     const handleClick = () => {
         if (handler) handler();
         setStep?.(p => {
-            const val = JSON.parse(localStorage.getItem(`tour-${id}`) ?? "");
+            const val = safeRead(`tour-${id}`) ?? { step: p, doneTour: false };
             val.step = p + 1;
-            localStorage.setItem(`tour-${id}`, JSON.stringify(val));
+            safeWrite(`tour-${id}`, val);
             return p + 1
         })
         if (step === steps.length - 1) {
-            localStorage.setItem(`tour-${id}`, JSON.stringify(true));
+            const val = safeRead(`tour-${id}`) ?? { step: step, doneTour: false };
+            val.doneTour = true;
+            safeWrite(`tour-${id}`, val);
+            setDoneTour?.(true);
         }
     }
 
@@ -131,9 +151,9 @@ export function TourButtonBack({ onClick: handler, children }: TourButtonInterfa
     const handleClick = () => {
         if (handler) handler();
         setStep?.(p => {
-            const val = JSON.parse(localStorage.getItem(`tour-${id}`) ?? "");
+            const val = safeRead(`tour-${id}`) ?? { step: p, doneTour: false };
             val.step = p - 1;
-            localStorage.setItem(`tour-${id}`, JSON.stringify(val));
+            safeWrite(`tour-${id}`, val);
             return p - 1
         })
     }
@@ -154,9 +174,9 @@ export function TourButtonFinish({ onClick: handler, children }: TourButtonInter
 
     const handleClick = () => {
         if (handler) handler();
-        const val = JSON.parse(localStorage.getItem(`tour-${id}`) ?? "");
+        const val = safeRead(`tour-${id}`) ?? { step: 0, doneTour: false };
         val.doneTour = true;
-        localStorage.setItem(`tour-${id}`, JSON.stringify(val));
+        safeWrite(`tour-${id}`, val);
         setDoneTour?.(true);
     }
 
@@ -201,18 +221,18 @@ export function TourRoute({ children }: { children: React.ReactNode }) {
     return (
         <>
             {isWrongOrder &&
-                <div className=" absolute top-0 left-0 bg-gray-100 w-[100vw] h-[100vh] flex justify-center align-center">
-                    <div className="min-w-fit-content min-h-fit-content p-4 rounded bg-white">
-                        <h3 className="font-2xl">Tour</h3>
+                <div className={styles.wrongOrderContainer}>
+                    <div className={styles.wrongOrderButtonContainer}>
+                        <h3>Tour</h3>
                         <p>Do you want to pick up where you left??</p>
-                        <div className="flex w-full justify-end gap-4">
+                        <div className={styles.wrongOrderButtonContainer}>
                             <button onClick={() => {
                                 setIsWrongOrder(false);
                                 navigateTour((JSON.parse(localStorage.getItem(`tour-${id}`) ?? "")).route)
-                            }} className="bg-slate-200 p-2">resume</button>
+                            }} className={styles.wrongOrderButton}>resume</button>
                             <button onClick={() => {
                                 setIsWrongOrder(false);
-                            }} className="bg-slate-200 p-2">exit</button>
+                            }} className={styles.wrongOrderButton}>exit</button>
                         </div>
                     </div>
                 </div>}
@@ -265,10 +285,10 @@ export function Highlighter({ children, passedStep }: HighlighterProps) {
                 </div>
 
                 <div aria-hidden style={{ position: 'fixed', inset: 0, zIndex: 60, pointerEvents: 'auto' }}>
-                    <div className="overlay" style={{ position: 'absolute', left: 0, top: 0, right: 0, height: rect.top, background: 'rgba(0,0,0,0.6)' }} />
-                    <div className="overlay" style={{ position: 'absolute', left: 0, top: rect.top, width: rect.left, height: rect.height, background: 'rgba(0,0,0,0.6)' }} />
-                    <div className="overlay" style={{ position: 'absolute', left: rect.left + rect.width, top: rect.top, right: 0, height: rect.height, background: 'rgba(0,0,0,0.6)' }} />
-                    <div className="overlay" style={{ position: 'absolute', left: 0, top: rect.top + rect.height, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)' }} />
+                    <div className={`${styles.overlay}`} style={{ position: 'absolute', left: 0, top: 0, right: 0, height: rect.top, background: 'rgba(0,0,0,0.6)' }} />
+                    <div className={`${styles.overlay}`} style={{ position: 'absolute', left: 0, top: rect.top, width: rect.left, height: rect.height, background: 'rgba(0,0,0,0.6)' }} />
+                    <div className={`${styles.overlay}`} style={{ position: 'absolute', left: rect.left + rect.width, top: rect.top, right: 0, height: rect.height, background: 'rgba(0,0,0,0.6)' }} />
+                    <div className={`${styles.overlay}`} style={{ position: 'absolute', left: 0, top: rect.top + rect.height, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)' }} />
                 </div>
                 <div style={{ position: 'fixed', top: rect.top, left: rect.left, width: rect.width, height: rect.height, boxShadow: '0 0 0 3px rgba(255,255,255,0.9)', borderRadius: 6, pointerEvents: 'none', zIndex: 72 }} />
             </div>
