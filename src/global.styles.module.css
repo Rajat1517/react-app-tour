@@ -1,0 +1,40 @@
+
+
+.tourPopup{
+    position: absolute;
+    opacity: 1;
+}
+
+
+.popupButtonContainer{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.tourPopupDefault{
+    background-color: white;
+    border-radius: 1rem;
+    width: fit-content;
+    height: fit-content;
+    /* min-width: 12rem;  */
+    box-sizing: border-box;
+    /* padding: 4rem; */
+    z-index: 60;
+}
+
+.popups{
+
+}
+
+.tourButton{
+    background-color: #cad5e2;
+    /* padding: 2rem; */
+    border-radius: 1rem;
+}
+
+.tourButton:disabled{
+    background-color: #f1f5f9;
+    cursor: not-allowed;
+}
