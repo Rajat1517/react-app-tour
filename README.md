@@ -1,4 +1,4 @@
-# React Guided Tour (Fancy Name: react-joyride-pro)
+# React Tour Walk
 
 A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.
 
@@ -11,12 +11,12 @@ A lightweight, customizable guided tour component for React applications. Highli
 
 ## Installation
 ```bash
-npm install react-joyride-pro
+npm install react-tour-walk
 ```
 
 ## Usage
 ```tsx
-import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tour-pro';
+import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tour-walk';
 
 const steps = [
   { title: 'Welcome', content: 'This is the first step!' },
