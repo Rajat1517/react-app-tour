@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Step, ReactType } from "./global.types.ts"
 import useTourNavigate from "./hooks/useTourNavigate.js";
 import styles from "./global.styles.module.css";
