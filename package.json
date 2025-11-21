@@ -1,13 +1,29 @@
 {
-  "name": "react-tour-guide",
+  "name": "react-tour-walk",
   "version": "1.0.0",
   "description": "A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.",
   "license": "ISC",
   "author": "Rajat Mishra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rajat1517/react-app-tour.git"
+  },
+  "keywords": [
+    "react",
+    "tour",
+    "guide",
+    "onboarding",
+    "tutorial",
+    "highlight"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
