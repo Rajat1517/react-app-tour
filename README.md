@@ -1,4 +1,4 @@
-# React Tour Walk
+# React TourKit
 
 A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.
 
@@ -11,12 +11,12 @@ A lightweight, customizable guided tour component for React applications. Highli
 
 ## Installation
 ```bash
-npm install react-tour-walk
+npm install react-tourkit 
 ```
 
 ## Usage
 ```tsx
-import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tour-walk';
+import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tourkit';
 
 const steps = [
   { title: 'Welcome', content: 'This is the first step!' },
