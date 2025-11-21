@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { Step, ReactType } from "./global.types.ts"
-import { useTourNavigate } from "./hooks/useTourNavigate.js";
+import useTourNavigate from "./hooks/useTourNavigate.js";
 import styles from "./global.styles.module.css";
 
 const safeRead = (key: string) => {
@@ -17,7 +17,7 @@ const safeWrite = (key: string, value: unknown) => {
     try {
         localStorage.setItem(key, JSON.stringify(value));
     } catch (e) {
-        return  null;
+        return null;
     }
 }
 
@@ -30,7 +30,7 @@ type TourContextType = {
     setDoneTour?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
- type TourPopupProps = {
+type TourPopupProps = {
     passedStep: number;
     children: React.ReactNode;
     left?: number;
@@ -40,18 +40,18 @@ type TourContextType = {
     backHandler?: () => void;
 }
 
- type TourProps = {
+type TourProps = {
     steps: Step[];
     children: React.ReactNode;
     id: string;
 }
 
- interface TourButtonInterface {
+interface TourButtonInterface {
     onClick: (() => void) | undefined;
     children: React.ReactNode;
 }
 
- type HighlighterProps = {
+type HighlighterProps = {
     children: React.ReactNode;
     passedStep: number;
 }

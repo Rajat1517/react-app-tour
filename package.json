@@ -1,11 +1,11 @@
 {
-  "name": "react-tour",
+  "name": "react-tour-guide",
   "version": "1.0.0",
-  "description": "",
+  "description": "A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.",
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
