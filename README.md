@@ -1,4 +1,4 @@
-# React TourKit
+# React Tourify
 
 A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.
 
@@ -11,12 +11,12 @@ A lightweight, customizable guided tour component for React applications. Highli
 
 ## Installation
 ```bash
-npm install react-tourkit 
+npm install react-tourify
 ```
 
 ## Usage
 ```tsx
-import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tourkit';
+import Tour, { TourPopup, Highlighter, TourRoute } from 'react-tourify';
 
 const steps = [
   { title: 'Welcome', content: 'This is the first step!' },

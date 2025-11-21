@@ -1,5 +1,5 @@
 {
-  "name": "react-tourkit",
+  "name": "react-tourify",
   "version": "1.0.0",
   "description": "A lightweight, customizable guided tour component for React applications. Highlight elements, show step-by-step popups, and help users onboard or discover features interactively.",
   "license": "ISC",
